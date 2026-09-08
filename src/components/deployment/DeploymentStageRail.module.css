@@ -1,0 +1,27 @@
+.rail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.stage {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.55);
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.selected {
+  border-color: rgba(255, 107, 44, 0.45);
+  background: var(--color-accent-faint);
+  color: var(--color-accent-dark);
+}
+
+.index {
+  margin-right: 6px;
+  color: var(--color-text-subtle);
+  font-weight: 600;
+}

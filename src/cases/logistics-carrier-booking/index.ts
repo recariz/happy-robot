@@ -5,6 +5,12 @@ import { company } from './company'
 import { currentState } from './current-state'
 import { narrative } from './narrative'
 import { sources } from './sources'
+import { systems } from './systems'
+import { processes } from './processes'
+import { diagnosis } from './diagnosis'
+import { solution } from './solution'
+import { northstars } from './northstars'
+import { deployment } from './deployment'
 
 const allSections: SectionId[] = [
   'current-state',
@@ -21,17 +27,23 @@ export const logisticsCarrierBookingCase = {
   presentation: {
     visibleSections: allSections,
     sectionStatus: {
-      'current-state': 'placeholder',
-      process: 'placeholder',
-      diagnosis: 'placeholder',
-      solution: 'placeholder',
-      deployment: 'placeholder',
+      'current-state': 'ready',
+      process: 'ready',
+      diagnosis: 'ready',
+      solution: 'ready',
+      deployment: 'ready',
       impact: 'placeholder',
     },
   },
   currentState,
   narrative,
   sources,
+  systems,
+  processes,
+  diagnosis,
+  solution,
+  northstars,
+  deployment,
 } satisfies CaseConfig
 
 export default logisticsCarrierBookingCase

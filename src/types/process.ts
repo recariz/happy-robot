@@ -1,5 +1,16 @@
 import type { EvidenceMeta } from './source'
 
+/** Classification used to derive diagnosis time shares from process weights. */
+export type DiagnosisRole =
+  | 'retrieval'
+  | 'judgment'
+  | 'transaction'
+  | 'admin'
+
+export type AutomationPotential = 'low' | 'medium' | 'medium-high' | 'high'
+
+export type HumanJudgment = 'none' | 'low' | 'medium' | 'high'
+
 export interface ProcessStep extends EvidenceMeta {
   id: string
   label: string
@@ -7,11 +18,14 @@ export interface ProcessStep extends EvidenceMeta {
   description: string
   avgSeconds?: number
   shareOfInteractions?: number
+  /** Prefer systemIds; legacy `systems` labels remain optional for display fallback. */
+  systemIds?: string[]
   systems?: string[]
   channels?: string[]
   people?: string[]
-  humanJudgment: 'none' | 'low' | 'medium' | 'high'
-  automationPotential: 'low' | 'medium' | 'high'
+  humanJudgment: HumanJudgment
+  automationPotential: AutomationPotential
+  diagnosisRole?: DiagnosisRole
   failureModes?: string[]
   exceptions?: string[]
   painPoints?: string[]

@@ -33,6 +33,7 @@ export interface DemoRunEvent {
   sourceSystemId?: string
   targetSystemId?: string
   northstarId?: string
+  escalationPathId?: string
   severity?: 'info' | 'success' | 'warning' | 'critical'
 }
 

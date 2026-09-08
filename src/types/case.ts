@@ -8,6 +8,7 @@ import type { DeploymentPlan } from './deployment'
 import type { EconomicsModel } from './economics'
 import type { DemoRunDefinition } from './demo-run'
 import type { SourceReference } from './source'
+import type { SystemDefinition } from './system'
 
 export interface CaseMetadata {
   id: string
@@ -35,16 +36,22 @@ export interface CompanyProfile {
   fictionalNote?: string
 }
 
+export interface CurrentStateCluster {
+  id: string
+  label: string
+  metricIds: string[]
+  summary?: string
+  detailItems?: Array<{
+    label: string
+    description?: string
+  }>
+  derivedMetricIds?: string[]
+}
+
 export interface CurrentState {
   headline: string
   metrics: Metric[]
-  /** Optional cluster ids for Phase 2 progressive disclosure. */
-  clusters?: Array<{
-    id: string
-    label: string
-    metricIds: string[]
-    summary?: string
-  }>
+  clusters?: CurrentStateCluster[]
 }
 
 export interface CaseNarrative {
@@ -70,6 +77,7 @@ export interface CaseConfig {
   currentState: CurrentState
   narrative: CaseNarrative
   sources: SourceReference[]
+  systems?: SystemDefinition[]
   processes?: ProcessDefinition[]
   diagnosis?: Diagnosis
   solution?: SolutionDesign

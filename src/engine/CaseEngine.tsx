@@ -26,6 +26,7 @@ import { Breadcrumbs } from '../components/navigation/Breadcrumbs'
 import { OverviewMap } from '../components/navigation/OverviewMap'
 import type { PresentationLocation, SectionId } from '../types/navigation'
 import { useCase } from './CaseProvider'
+import { RegisteredSectionView } from './section-views'
 import { ZoomCanvas } from './ZoomCanvas'
 
 export function CaseEngine() {
@@ -173,6 +174,7 @@ export function CaseEngine() {
                 position: 'absolute',
                 inset: 0,
                 background: 'var(--color-canvas)',
+                zIndex: 2,
               }}
               initial={reduceMotion ? false : { opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -184,6 +186,9 @@ export function CaseEngine() {
                 title={activeSection.label}
                 prompt={activeSection.prompt}
                 headingRef={headingRef}
+                layout={
+                  activeSection.id === 'solution' ? 'workspace' : 'document'
+                }
                 toolbar={
                   <>
                     <BackButton onClick={goBack} />
@@ -203,8 +208,19 @@ export function CaseEngine() {
                   </>
                 }
               >
-                <div data-section-status={sectionStatus}>
-                  <DevelopmentPlaceholder sectionLabel={activeSection.label} />
+                <div
+                  data-section-status={sectionStatus}
+                  style={
+                    activeSection.id === 'solution'
+                      ? { flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }
+                      : undefined
+                  }
+                >
+                  {sectionStatus === 'ready' ? (
+                    <RegisteredSectionView id={activeSection.id} />
+                  ) : (
+                    <DevelopmentPlaceholder sectionLabel={activeSection.label} />
+                  )}
                 </div>
               </SectionFrame>
             </motion.div>

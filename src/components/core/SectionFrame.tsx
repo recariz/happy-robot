@@ -8,6 +8,11 @@ interface SectionFrameProps {
   toolbar?: ReactNode
   children: ReactNode
   headingRef?: React.RefObject<HTMLHeadingElement | null>
+  /**
+   * document — scrollable reading layout (default)
+   * workspace — fill viewport; children manage internal layout (Solution)
+   */
+  layout?: 'document' | 'workspace'
 }
 
 export function SectionFrame({
@@ -17,17 +22,42 @@ export function SectionFrame({
   toolbar,
   children,
   headingRef,
+  layout = 'document',
 }: SectionFrameProps) {
+  const frameClass =
+    layout === 'workspace'
+      ? `${styles.frame} ${styles.frameWorkspace}`
+      : styles.frame
+  const contentClass =
+    layout === 'workspace'
+      ? `${styles.content} ${styles.contentWorkspace}`
+      : styles.content
+
   return (
-    <section className={styles.frame} aria-labelledby="section-heading">
+    <section className={frameClass} aria-labelledby="section-heading" data-layout={layout}>
       {toolbar ? <div className={styles.toolbar}>{toolbar}</div> : null}
-      <div className={styles.content}>
-        <div className={styles.kicker}>{number}</div>
-        <h1 id="section-heading" className={styles.title} ref={headingRef} tabIndex={-1}>
-          {title}
-        </h1>
-        <p className={styles.prompt}>{prompt}</p>
-        {children}
+      <div className={contentClass}>
+        <header
+          className={
+            layout === 'workspace' ? styles.headerWorkspace : styles.headerDocument
+          }
+        >
+          <div className={styles.kicker}>{number}</div>
+          <h1
+            id="section-heading"
+            className={layout === 'workspace' ? styles.titleWorkspace : styles.title}
+            ref={headingRef}
+            tabIndex={-1}
+          >
+            {title}
+          </h1>
+          <p className={layout === 'workspace' ? styles.promptWorkspace : styles.prompt}>
+            {prompt}
+          </p>
+        </header>
+        <div className={layout === 'workspace' ? styles.bodyWorkspace : undefined}>
+          {children}
+        </div>
       </div>
     </section>
   )

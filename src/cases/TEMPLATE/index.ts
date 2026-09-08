@@ -50,6 +50,39 @@ export const templateCase = {
     keyInsight: 'Replace with the one-sentence diagnosis.',
   },
   sources: [],
+  systems: [],
+  processes: [],
+  diagnosis: {
+    summary: 'Replace with diagnosis summary.',
+    bottlenecks: [],
+    rootCauses: [],
+  },
+  solution: {
+    businessObjective: {
+      id: 'obj-template',
+      statement: 'Replace with the case business objective.',
+    },
+    channels: [],
+    contextSources: [],
+    stages: [],
+    tools: [],
+    actions: [],
+    escalationPaths: [],
+  },
+  northstars: [],
+  deployment: {
+    methodologyNote:
+      'Replace with methodology note. Tag proposed frameworks as our-design / assumption.',
+    stages: [],
+    pilot: {
+      id: 'pilot-template',
+      summary: 'Replace with qualitative pilot summary.',
+      includedScope: [],
+      excludedOrEscalate: [],
+      humanFallback: 'Replace with human fallback description.',
+    },
+    evaluationCases: [],
+  },
 } satisfies CaseConfig
 
 export default templateCase

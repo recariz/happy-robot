@@ -1,0 +1,131 @@
+.node {
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.55);
+  padding: var(--space-3) var(--space-4);
+  color: var(--color-text);
+  transition: border-color var(--motion-fast) var(--ease-out),
+    box-shadow var(--motion-fast) var(--ease-out),
+    opacity var(--motion-fast) var(--ease-out),
+    background var(--motion-fast) var(--ease-out);
+}
+
+.compact {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: auto;
+  max-width: 100%;
+  min-height: 28px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.compact .label {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: inherit;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.compact .hint {
+  margin: 0;
+  font-size: 9px;
+  color: var(--color-text-subtle);
+  white-space: nowrap;
+}
+
+/**
+ * Readable chips on the dark HappyRobot core.
+ * Solid light surface + dark text — do not inherit white from parent.
+ */
+.onDark {
+  background: rgba(255, 255, 255, 0.84);
+  border-color: rgba(255, 255, 255, 0.92);
+  border-width: 1.5px;
+  color: var(--ink-0);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.12);
+}
+
+.onDark .label {
+  color: var(--ink-0);
+}
+
+.onDark .hint {
+  color: var(--color-text-muted);
+}
+
+.onDark.selected {
+  background: color-mix(in srgb, var(--color-accent-faint) 88%, white);
+  border-color: rgba(255, 107, 44, 0.95);
+  border-width: 1.5px;
+  color: var(--ink-0);
+}
+
+.onDark.governed {
+  border-color: rgba(70, 106, 134, 0.75);
+  box-shadow: 0 0 0 1px rgba(125, 180, 220, 0.45);
+}
+
+.node:hover {
+  border-color: var(--color-border-strong);
+}
+
+.onDark:hover {
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.selected {
+  border-color: rgba(255, 107, 44, 0.55);
+  box-shadow: 0 0 0 1px rgba(255, 107, 44, 0.16);
+  background: var(--color-accent-faint);
+}
+
+.governed {
+  border-color: rgba(70, 106, 134, 0.6);
+  box-shadow: 0 0 0 1px rgba(70, 106, 134, 0.2);
+}
+
+.dimmed {
+  opacity: 0.35;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: 6px;
+}
+
+.kind {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+}
+
+.label {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 15px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.hint {
+  margin: 6px 0 0;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  line-height: 1.35;
+}

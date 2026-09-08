@@ -1,0 +1,104 @@
+.map {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-height: 0;
+  height: 100%;
+  overflow: auto;
+  padding-right: 2px;
+}
+
+.layer {
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+.rowLabel,
+.coreSectionLabel {
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: 4px;
+}
+
+.coreSectionLabel {
+  color: rgba(255, 255, 255, 0.42);
+}
+
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.flow {
+  color: var(--color-text-subtle);
+  font-size: 10px;
+  line-height: 1;
+  padding-left: 6px;
+  flex-shrink: 0;
+}
+
+.core {
+  border-radius: var(--radius-lg);
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--ink-0) 86%, white) 0%,
+    color-mix(in srgb, var(--ink-1) 78%, white) 100%
+  );
+  color: #fff;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.coreHead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-shrink: 0;
+}
+
+.coreKicker {
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 2px;
+}
+
+.coreSectionLabel {
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 6px;
+}
+
+.coreTitle {
+  font-family: var(--font-display);
+  font-size: 18px;
+  letter-spacing: -0.02em;
+  margin: 0;
+  line-height: 1;
+  color: #fff;
+}
+
+.coreBlock {
+  min-width: 0;
+}
+
+.splitLayer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 1100px) {
+  .splitLayer {
+    grid-template-columns: 1fr;
+  }
+}

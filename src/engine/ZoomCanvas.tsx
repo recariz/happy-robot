@@ -27,11 +27,15 @@ export function ZoomCanvas({ activeSectionId, children }: ZoomCanvasProps) {
         position: 'absolute',
         inset: 0,
         transformOrigin: '50% 50%',
+        pointerEvents: activeSectionId ? 'none' : 'auto',
+        opacity: activeSectionId ? 0 : 1,
       }}
+      aria-hidden={Boolean(activeSectionId)}
       animate={{
         x: `${targetX * 100}%`,
         y: `${targetY * 100}%`,
         scale,
+        opacity: activeSectionId ? 0 : 1,
       }}
       transition={
         reduceMotion

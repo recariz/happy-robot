@@ -17,6 +17,7 @@ export interface Bottleneck extends EvidenceMeta {
     | 'other'
   severity: 'low' | 'medium' | 'high' | 'critical'
   quantifiedImpact?: Metric[]
+  rootCauseId?: string
   rootCause?: string
 }
 
@@ -29,8 +30,19 @@ export interface RootCause {
 
 export interface Diagnosis {
   summary: string
+  /**
+   * Optional static metrics. Prefer derived metrics from process/current-state utils.
+   * IDs listed in derivedMetricKeys are computed at render time.
+   */
   headlineMetrics?: Metric[]
+  /** Keys understood by derive-diagnosis util. */
+  derivedMetricKeys?: Array<
+    | 'retrieval-transfer-share'
+    | 'low-judgment-share'
+    | 'after-hours-share'
+    | 'abandoned-calls-per-day'
+    | 'after-hours-calls-per-day'
+  >
   bottlenecks: Bottleneck[]
   rootCauses?: RootCause[]
-  keyInsightId?: string
 }

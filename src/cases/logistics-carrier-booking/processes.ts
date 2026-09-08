@@ -1,0 +1,172 @@
+import type { ProcessDefinition, ProcessStep } from '../../types/process'
+
+const evidence = {
+  provenance: 'our-design' as const,
+  confidence: 'placeholder' as const,
+  sourceId: 'atlas-placeholder-process',
+}
+
+const steps: ProcessStep[] = [
+  {
+    id: 'receive-request',
+    label: 'Receive / capture request',
+    shortLabel: 'Receive',
+    description:
+      'Inbound carrier call is answered and the request is captured in conversation.',
+    avgSeconds: 25,
+    shareOfInteractions: 1,
+    systemIds: ['telephony'],
+    humanJudgment: 'low',
+    automationPotential: 'high',
+    diagnosisRole: 'retrieval',
+    painPoints: ['Manual intake / context begins in conversation'],
+    ...evidence,
+  },
+  {
+    id: 'identify-carrier',
+    label: 'Identify carrier',
+    shortLabel: 'Identify carrier',
+    description:
+      'Operator verifies carrier identity and account against the qualification system.',
+    avgSeconds: 35,
+    shareOfInteractions: 1,
+    systemIds: ['telephony', 'carrier-qualification'],
+    humanJudgment: 'low',
+    automationPotential: 'high',
+    diagnosisRole: 'retrieval',
+    painPoints: ['Operator manually verifies carrier identity / account'],
+    ...evidence,
+  },
+  {
+    id: 'identify-load',
+    label: 'Identify load',
+    shortLabel: 'Identify load',
+    description:
+      'Operator searches the TMS using caller-provided information to locate the load.',
+    avgSeconds: 35,
+    shareOfInteractions: 1,
+    systemIds: ['tms'],
+    humanJudgment: 'low',
+    automationPotential: 'high',
+    diagnosisRole: 'retrieval',
+    painPoints: ['Operator searches manually using caller-provided information'],
+    ...evidence,
+  },
+  {
+    id: 'check-eligibility',
+    label: 'Check carrier eligibility / compliance',
+    shortLabel: 'Eligibility',
+    description:
+      'Operator checks eligibility and compliance rules across qualification and TMS context.',
+    avgSeconds: 50,
+    shareOfInteractions: 0.85,
+    systemIds: ['carrier-qualification', 'tms'],
+    humanJudgment: 'medium',
+    automationPotential: 'medium-high',
+    diagnosisRole: 'retrieval',
+    painPoints: ['Switching systems and checking eligibility rules'],
+    ...evidence,
+  },
+  {
+    id: 'check-availability',
+    label: 'Check load availability / details',
+    shortLabel: 'Availability',
+    description:
+      'Operator retrieves load availability and operational details from the TMS.',
+    avgSeconds: 45,
+    shareOfInteractions: 1,
+    systemIds: ['tms'],
+    humanJudgment: 'low',
+    automationPotential: 'high',
+    diagnosisRole: 'retrieval',
+    painPoints: ['Information retrieval from system of record'],
+    ...evidence,
+  },
+  {
+    id: 'retrieve-rate',
+    label: 'Retrieve authorized rate',
+    shortLabel: 'Retrieve rate',
+    description:
+      'Operator retrieves the authorized rate from the TMS pricing source.',
+    avgSeconds: 60,
+    shareOfInteractions: 0.85,
+    systemIds: ['tms'],
+    humanJudgment: 'low',
+    automationPotential: 'high',
+    diagnosisRole: 'retrieval',
+    painPoints: ['Operator retrieves pricing information manually'],
+    ...evidence,
+  },
+  {
+    id: 'negotiate-confirm',
+    label: 'Negotiate / confirm terms',
+    shortLabel: 'Negotiate',
+    description:
+      'Operator negotiates or confirms terms within policy boundaries; may escalate.',
+    avgSeconds: 85,
+    shareOfInteractions: 0.7,
+    systemIds: ['tms'],
+    channels: ['voice'],
+    humanJudgment: 'high',
+    automationPotential: 'medium',
+    diagnosisRole: 'judgment',
+    painPoints: ['Variable judgment / policy boundaries / potential escalation'],
+    ...evidence,
+  },
+  {
+    id: 'book-carrier',
+    label: 'Book carrier',
+    shortLabel: 'Book',
+    description:
+      'Operator commits the booking in the TMS after verbal agreement.',
+    avgSeconds: 40,
+    shareOfInteractions: 0.6,
+    systemIds: ['tms'],
+    humanJudgment: 'medium',
+    automationPotential: 'high',
+    diagnosisRole: 'transaction',
+    painPoints: ['Manual transaction after verbal agreement'],
+    ...evidence,
+  },
+  {
+    id: 'update-records',
+    label: 'Update operational records',
+    shortLabel: 'Update records',
+    description:
+      'Operator writes booking and interaction outcomes back into TMS and CRM.',
+    avgSeconds: 35,
+    shareOfInteractions: 0.6,
+    systemIds: ['tms', 'crm'],
+    humanJudgment: 'low',
+    automationPotential: 'high',
+    diagnosisRole: 'admin',
+    painPoints: ['Duplicate write-back / administrative work'],
+    ...evidence,
+  },
+  {
+    id: 'send-confirmation',
+    label: 'Send confirmation / log interaction',
+    shortLabel: 'Confirm',
+    description:
+      'Operator sends confirmation and logs the interaction in CRM / messaging.',
+    avgSeconds: 20,
+    shareOfInteractions: 0.6,
+    systemIds: ['crm', 'messaging'],
+    humanJudgment: 'low',
+    automationPotential: 'high',
+    diagnosisRole: 'admin',
+    painPoints: ['Repetitive post-call administration'],
+    ...evidence,
+  },
+]
+
+export const carrierBookingProcess = {
+  id: 'carrier-booking',
+  label: 'Inbound carrier booking',
+  description:
+    'Phone-led carrier booking workflow from inbound call through confirmation.',
+  stepIds: steps.map((step) => step.id),
+  steps,
+} satisfies ProcessDefinition
+
+export const processes = [carrierBookingProcess]

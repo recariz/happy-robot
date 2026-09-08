@@ -1,0 +1,57 @@
+.card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.55);
+  padding: var(--space-4);
+  text-align: left;
+}
+
+.cardInteractive {
+  width: 100%;
+  cursor: pointer;
+  color: inherit;
+  transition: border-color var(--motion-fast) var(--ease-out);
+}
+
+.cardInteractive:hover,
+.cardSelected {
+  border-color: rgba(255, 107, 44, 0.45);
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+}
+
+.category {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.severity {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent-dark);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  letter-spacing: -0.02em;
+  margin: 0 0 var(--space-2);
+}
+
+.summary {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--color-text-muted);
+}

@@ -14,18 +14,28 @@ export type {
 } from './navigation'
 
 export type { Metric, MetricValue, MetricFormat, MetricTimeframe } from './metric'
-export type { ProcessStep, ProcessDefinition } from './process'
+export type { SystemDefinition, SystemRole } from './system'
+export type {
+  ProcessStep,
+  ProcessDefinition,
+  DiagnosisRole,
+  AutomationPotential,
+  HumanJudgment,
+} from './process'
 export type { Bottleneck, RootCause, Diagnosis } from './diagnosis'
 export type {
   BusinessObjective,
   TargetOutcome,
+  ControlMode,
+  ToolAccess,
   ChannelConfig,
   ContextSource,
-  WorkflowDesign,
+  WorkflowStage,
+  DecisionPoint,
   ToolDefinition,
-  IntegrationDefinition,
   ActionDefinition,
-  EscalationDesign,
+  EscalationPath,
+  OperatingModelShift,
   SolutionDesign,
 } from './solution'
 export type { NorthstarKind, NorthstarCategory, Northstar } from './northstar'
@@ -35,6 +45,10 @@ export type {
   DeploymentRisk,
   SuccessCriterion,
   ProductionReadinessItem,
+  PilotDesign,
+  EvaluationCaseCategory,
+  EvaluationExpectedOutcome,
+  EvaluationCase,
   DeploymentPlan,
 } from './deployment'
 export type {
@@ -56,6 +70,7 @@ export type {
   CaseMetadata,
   CompanyProfile,
   CurrentState,
+  CurrentStateCluster,
   CaseNarrative,
   CaseConfig,
 } from './case'

@@ -99,6 +99,8 @@ export interface NorthstarResultEvent extends BaseRunEvent {
 
 export interface EscalationEvent extends BaseRunEvent {
   type: 'escalation'
+  /** Stable id matching solution.escalationPaths[].id when authored. */
+  escalationPathId?: string
   reason: string
   destination: string
   contextFields?: string[]

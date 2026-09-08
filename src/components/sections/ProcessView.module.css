@@ -1,0 +1,28 @@
+.view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.bleed {
+  position: relative;
+  left: 50%;
+  width: min(100vw - 48px, 1280px);
+  max-width: none;
+  transform: translateX(-50%);
+}
+
+
+.intro {
+  margin: 0 0 var(--space-2);
+  max-width: 40rem;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+}
+
+.hint {
+  margin: 0;
+  font-size: 12px;
+  color: var(--color-text-subtle);
+}
