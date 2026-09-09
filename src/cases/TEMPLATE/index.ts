@@ -1,5 +1,6 @@
 import type { CaseConfig } from '../../types/case'
 import type { SectionId } from '../../types/navigation'
+import { demoRuns } from './demo-runs'
 
 const allSections: SectionId[] = [
   'current-state',
@@ -70,6 +71,7 @@ export const templateCase = {
     escalationPaths: [],
   },
   northstars: [],
+  demoRuns,
   deployment: {
     methodologyNote:
       'Replace with methodology note. Tag proposed frameworks as our-design / assumption.',

@@ -303,7 +303,7 @@ export const deployment = {
     {
       id: 'pr-runtime-sim',
       label: 'Simulated deployment run against Northstars',
-      status: 'pending',
+      status: 'ready',
       ...framework,
     },
   ],

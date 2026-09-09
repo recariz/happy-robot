@@ -11,6 +11,7 @@ import { diagnosis } from './diagnosis'
 import { solution } from './solution'
 import { northstars } from './northstars'
 import { deployment } from './deployment'
+import { demoRuns } from './demo-runs'
 
 const allSections: SectionId[] = [
   'current-state',
@@ -44,6 +45,7 @@ export const logisticsCarrierBookingCase = {
   solution,
   northstars,
   deployment,
+  demoRuns,
 } satisfies CaseConfig
 
 export default logisticsCarrierBookingCase

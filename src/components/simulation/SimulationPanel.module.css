@@ -1,0 +1,218 @@
+.panel {
+  height: 100%;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto auto;
+  gap: var(--space-2);
+  padding: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--color-surface) 84%, transparent);
+  backdrop-filter: blur(8px);
+  overflow: hidden;
+}
+
+.header {
+  display: grid;
+  gap: 6px;
+}
+
+.headerTop,
+.statusRow,
+.controls,
+.controlGroup,
+.factHeader {
+  display: flex;
+  align-items: center;
+}
+
+.headerTop,
+.statusRow,
+.factHeader {
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.eyebrow {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--color-accent-dark);
+}
+
+.select {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  padding: 6px 8px;
+  font: 550 11px/1.2 var(--font-ui);
+}
+
+.state,
+.step {
+  font-size: 9px;
+  font-weight: 650;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.controls {
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.controlGroup {
+  gap: 4px;
+}
+
+.control {
+  min-width: 30px;
+  min-height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: 4px 8px;
+  background: color-mix(in srgb, var(--color-surface) 76%, transparent);
+  color: var(--color-text-muted);
+  font: 600 10px/1 var(--font-ui);
+}
+
+.control:hover:not(:disabled) {
+  border-color: var(--color-border-strong);
+  color: var(--color-text);
+}
+
+.control:disabled {
+  opacity: 0.38;
+}
+
+.primaryControl {
+  border-color: color-mix(in srgb, var(--color-runtime-active) 50%, transparent);
+  background: var(--color-runtime-active-bg);
+  color: var(--color-accent-dark);
+}
+
+.eventArea {
+  min-height: 0;
+  overflow: auto;
+}
+
+.eventMotion {
+  min-height: 100%;
+}
+
+.facts {
+  display: grid;
+  gap: 5px;
+  padding-top: 7px;
+  border-top: 1px solid var(--color-border);
+}
+
+.factHeader {
+  font-size: 8px;
+  font-weight: 650;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+}
+
+.factGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 5px;
+}
+
+.fact {
+  min-width: 0;
+  padding: 5px 7px;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--color-beige) 54%, transparent);
+}
+
+.factLabel {
+  display: block;
+  font-size: 8px;
+  color: var(--color-text-subtle);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.factValue {
+  display: block;
+  margin-top: 1px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.progress {
+  height: 3px;
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background: var(--color-beige-strong);
+}
+
+.progressValue {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--color-runtime-active);
+  transition: width var(--motion-event) var(--ease-out);
+}
+
+.northstarRail {
+  flex-shrink: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 5px 7px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--info-bg) 50%, transparent);
+}
+
+.northstarChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  padding: 3px 7px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--color-surface) 80%, transparent);
+  color: var(--color-text-muted);
+  font-size: 9px;
+}
+
+.northstarChecking {
+  border-color: var(--color-runtime-active);
+  color: var(--color-accent-dark);
+}
+
+.northstarPass {
+  border-color: color-mix(in srgb, var(--color-runtime-complete) 50%, transparent);
+  color: var(--color-runtime-complete);
+}
+
+.northstarFail {
+  border-color: var(--color-runtime-exception);
+  color: var(--color-runtime-exception);
+}
+
+@media (max-width: 1100px) {
+  .panel {
+    grid-template-rows: auto auto minmax(140px, 1fr) auto auto;
+  }
+}

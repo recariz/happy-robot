@@ -1,5 +1,21 @@
 import type { EvidenceMeta } from './source'
 
+export type ArchitectureEntityKind =
+  | 'channel'
+  | 'context'
+  | 'stage'
+  | 'decision'
+  | 'tool'
+  | 'system'
+  | 'escalation'
+  | 'northstar'
+
+/** Stable, label-independent reference to an entity shown by the solution experience. */
+export interface ArchitectureRef {
+  kind: ArchitectureEntityKind
+  id: string
+}
+
 /**
  * Case / customer objective for the engagement.
  * Structurally separate from HappyRobot Northstars and operational KPIs.

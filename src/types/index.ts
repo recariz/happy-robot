@@ -24,6 +24,8 @@ export type {
 } from './process'
 export type { Bottleneck, RootCause, Diagnosis } from './diagnosis'
 export type {
+  ArchitectureEntityKind,
+  ArchitectureRef,
   BusinessObjective,
   TargetOutcome,
   ControlMode,
@@ -59,13 +61,27 @@ export type {
 export type {
   DemoRunEventType,
   DemoRunEvent,
+  DemoRunStateField,
+  DemoRunSystemRecord,
+  DemoRunContextState,
   DemoParticipants,
   DemoInitialState,
   DemoExpectedOutcome,
   DemoBusinessImpact,
+  DemoRunPresentationKind,
+  RunFactRef,
+  DemoRunStepPresentation,
+  DemoRunStep,
   DemoRunDefinition,
 } from './demo-run'
-export type { NormalizedRunEvent, BaseRunEvent } from './run-event'
+export type {
+  NormalizedRunEvent,
+  BaseRunEvent,
+  RunValue,
+  RunFieldFormat,
+  RunField,
+  RunFieldChange,
+} from './run-event'
 export type {
   CaseMetadata,
   CompanyProfile,

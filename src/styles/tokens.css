@@ -48,6 +48,12 @@
   --color-accent-faint: var(--accent-faint);
   --color-focus: var(--accent-0);
   --color-selected: var(--accent-0);
+  --color-runtime-active: var(--accent-0);
+  --color-runtime-active-bg: var(--accent-faint);
+  --color-runtime-complete: var(--success-0);
+  --color-runtime-complete-bg: var(--success-bg);
+  --color-runtime-exception: var(--warning-0);
+  --color-runtime-exception-bg: var(--warning-bg);
 
   --radius-sm: 10px;
   --radius-md: 14px;
@@ -78,6 +84,7 @@
   --z-focus: 30;
 
   --motion-fast: 180ms;
+  --motion-event: 260ms;
   --motion-base: 550ms;
   --motion-slow: 700ms;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);

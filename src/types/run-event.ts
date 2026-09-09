@@ -8,10 +8,29 @@ export interface BaseRunEvent {
   id: string
   runId: string
   sequence: number
-  atMs: number
+  /** Informational runtime timing only. Playback is ordered by authored step index. */
+  atMs?: number
   occurredAt?: string
   severity?: 'info' | 'success' | 'warning' | 'critical'
   simulated: boolean
+}
+
+export type RunValue = string | number | boolean | null | RunValue[]
+export type RunFieldFormat = 'text' | 'currency' | 'status' | 'boolean'
+
+export interface RunField {
+  field: string
+  label: string
+  value: RunValue
+  format?: RunFieldFormat
+}
+
+export interface RunFieldChange {
+  field: string
+  label: string
+  before?: RunValue
+  after: RunValue
+  format?: RunFieldFormat
 }
 
 export interface RunStartedEvent extends BaseRunEvent {
@@ -35,8 +54,8 @@ export interface IntentDetectedEvent extends BaseRunEvent {
 export interface ToolCallEvent extends BaseRunEvent {
   type: 'tool_call'
   toolId: string
-  toolLabel: string
   correlationId: string
+  title?: string
   args?: Record<string, unknown>
 }
 
@@ -45,6 +64,7 @@ export interface ToolResultEvent extends BaseRunEvent {
   toolId: string
   correlationId: string
   status: 'success' | 'error'
+  title?: string
   result?: Record<string, unknown>
   durationMs?: number
 }
@@ -54,38 +74,33 @@ export interface SystemReadEvent extends BaseRunEvent {
   systemId: string
   entityId?: string
   title?: string
-  data?: Record<string, unknown>
+  fields?: RunField[]
 }
 
 export interface SystemUpdateEvent extends BaseRunEvent {
   type: 'system_update'
   systemId: string
   entityId?: string
-  changes: Array<{
-    field: string
-    before?: unknown
-    after: unknown
-  }>
+  title?: string
+  changes: RunFieldChange[]
 }
 
 export interface ContextReadEvent extends BaseRunEvent {
   type: 'context_read'
-  scope?: string
+  contextSourceId: string
   fields?: string[]
 }
 
 export interface ContextUpdateEvent extends BaseRunEvent {
   type: 'context_update'
-  scope?: string
-  changes: Array<{
-    field: string
-    before?: unknown
-    after: unknown
-  }>
+  contextSourceId: string
+  title?: string
+  changes: RunFieldChange[]
 }
 
 export interface DecisionEvent extends BaseRunEvent {
   type: 'decision'
+  decisionId: string
   title: string
   detail?: Record<string, unknown>
 }
@@ -93,7 +108,7 @@ export interface DecisionEvent extends BaseRunEvent {
 export interface NorthstarResultEvent extends BaseRunEvent {
   type: 'northstar_result'
   northstarId: string
-  result: 'pass' | 'fail' | 'not_applicable'
+  status: 'checking' | 'pass' | 'fail' | 'not_applicable'
   evidence?: string
 }
 
@@ -116,6 +131,8 @@ export interface NotificationEvent extends BaseRunEvent {
 export interface RunCompletedEvent extends BaseRunEvent {
   type: 'run_completed'
   title?: string
+  summary?: string
+  outcomeItems?: string[]
 }
 
 export interface RunFailedEvent extends BaseRunEvent {

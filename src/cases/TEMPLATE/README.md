@@ -23,4 +23,12 @@ src/cases/<new-case-slug>/
 4. Register the case in `src/engine/case-registry.ts`.
 5. Later modules (`processes`, `diagnosis`, `solution`, `northstars`, `deployment`, `economics`, `demoRuns`) stay optional until their section is implemented.
 
+## Simulated deployment runs
+
+- Keep authored scenarios under `demo-runs/<scenario-id>/scenario.ts`.
+- Keep local media beside its scenario and import it from case data.
+- Use stable solution/system/Northstar IDs in `highlightRefs` and events.
+- Generic simulation components receive resolved asset URLs only.
+- Playback is ordered by `steps[]`; absolute timestamps never control the run.
+
 See `docs/HappyRobot_DS_Case_Engine_Blueprint.md` Appendix C for the full authoring checklist.

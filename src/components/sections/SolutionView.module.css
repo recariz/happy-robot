@@ -97,6 +97,39 @@
   color: var(--color-text-muted);
 }
 
+.toolbarControls,
+.modeToggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.modeToggle {
+  padding: 2px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--color-surface) 62%, transparent);
+}
+
+.modeButton {
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  padding: 3px 9px;
+  color: var(--color-text-muted);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.modeButtonActive {
+  background: var(--color-ink);
+  color: var(--color-surface);
+}
+
+.modeButton:disabled {
+  opacity: 0.35;
+}
+
 .toggle {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-pill);
@@ -163,6 +196,18 @@
   overflow: auto;
   display: flex;
   flex-direction: column;
+  transition:
+    background var(--motion-event) var(--ease-out),
+    border-color var(--motion-event) var(--ease-out);
+}
+
+.canvasExecuting {
+  border-color: color-mix(in srgb, var(--ink-0) 34%, transparent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--ink-1) 28%, var(--beige-0)) 0%,
+    color-mix(in srgb, var(--ink-0) 40%, var(--beige-1)) 100%
+  );
 }
 
 .inspectorShell {

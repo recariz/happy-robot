@@ -1,6 +1,10 @@
 import type { SolutionDesign } from '../../types/solution'
 import type { SystemDefinition } from '../../types/system'
 import type { ArchitectureSelection } from '../../utils/solution'
+import {
+  architectureRefKey,
+  type ArchitectureRuntimeState,
+} from '../../engine/simulation/resolve-runtime-state'
 import { ArchitectureNode } from './ArchitectureNode'
 import styles from './OrchestrationMap.module.css'
 
@@ -10,7 +14,10 @@ interface OrchestrationMapProps {
   selection: ArchitectureSelection
   governedIds: Set<string>
   governanceActive: boolean
-  onSelect: (selection: ArchitectureSelection) => void
+  runtimeStates?: Map<string, ArchitectureRuntimeState>
+  executing?: boolean
+  darkened?: boolean
+  onSelect?: (selection: ArchitectureSelection) => void
 }
 
 function isSelected(
@@ -27,6 +34,9 @@ export function OrchestrationMap({
   selection,
   governedIds,
   governanceActive,
+  runtimeStates,
+  executing = false,
+  darkened = false,
   onSelect,
 }: OrchestrationMapProps) {
   const primaryChannels = solution.channels.filter((channel) => channel.primary)
@@ -34,13 +44,23 @@ export function OrchestrationMap({
     ? primaryChannels
     : solution.channels.slice(0, 1)
 
-  const dim = (id: string) =>
-    governanceActive && governedIds.size > 0 && !governedIds.has(id)
+  const dim = (id: string, state: ArchitectureRuntimeState) => {
+    if (governanceActive && governedIds.size > 0 && !governedIds.has(id)) {
+      return true
+    }
+    return executing && state === 'idle'
+  }
 
   const governed = (id: string) => governanceActive && governedIds.has(id)
+  const runtime = (
+    kind: 'channel' | 'context' | 'stage' | 'decision' | 'tool' | 'system' | 'escalation',
+    id: string,
+  ) => runtimeStates?.get(architectureRefKey({ kind, id })) ?? 'idle'
 
   return (
-    <div className={styles.map}>
+    <div
+      className={`${styles.map} ${darkened || executing ? styles.executing : ''}`}
+    >
       <section className={styles.layer}>
         <div className={styles.rowLabel}>Channel</div>
         <div className={styles.chipRow}>
@@ -50,8 +70,14 @@ export function OrchestrationMap({
               density="compact"
               kindLabel="Channel"
               label={channel.label}
+              runtimeState={runtime('channel', channel.id)}
               selected={isSelected(selection, 'channel', channel.id)}
-              onSelect={() => onSelect({ kind: 'channel', id: channel.id })}
+              dimmed={dim(channel.id, runtime('channel', channel.id))}
+              onSelect={
+                onSelect
+                  ? () => onSelect({ kind: 'channel', id: channel.id })
+                  : undefined
+              }
             />
           ))}
         </div>
@@ -70,10 +96,15 @@ export function OrchestrationMap({
               density="compact"
               kindLabel="Context"
               label={source.label}
+              runtimeState={runtime('context', source.id)}
               selected={isSelected(selection, 'context', source.id)}
               governed={governed(source.id)}
-              dimmed={dim(source.id)}
-              onSelect={() => onSelect({ kind: 'context', id: source.id })}
+              dimmed={dim(source.id, runtime('context', source.id))}
+              onSelect={
+                onSelect
+                  ? () => onSelect({ kind: 'context', id: source.id })
+                  : undefined
+              }
             />
           ))}
         </div>
@@ -102,10 +133,15 @@ export function OrchestrationMap({
                 kindLabel="Stage"
                 label={stage.label}
                 controlMode={stage.controlMode}
+                runtimeState={runtime('stage', stage.id)}
                 selected={isSelected(selection, 'stage', stage.id)}
                 governed={governed(stage.id)}
-                dimmed={dim(stage.id)}
-                onSelect={() => onSelect({ kind: 'stage', id: stage.id })}
+                dimmed={dim(stage.id, runtime('stage', stage.id))}
+                onSelect={
+                  onSelect
+                    ? () => onSelect({ kind: 'stage', id: stage.id })
+                    : undefined
+                }
               />
             ))}
           </div>
@@ -123,10 +159,15 @@ export function OrchestrationMap({
                   kindLabel="Decision"
                   label={decision.label}
                   controlMode={decision.controlMode}
+                  runtimeState={runtime('decision', decision.id)}
                   selected={isSelected(selection, 'decision', decision.id)}
                   governed={governed(decision.id)}
-                  dimmed={dim(decision.id)}
-                  onSelect={() => onSelect({ kind: 'decision', id: decision.id })}
+                  dimmed={dim(decision.id, runtime('decision', decision.id))}
+                  onSelect={
+                    onSelect
+                      ? () => onSelect({ kind: 'decision', id: decision.id })
+                      : undefined
+                  }
                 />
               ))}
             </div>
@@ -144,10 +185,15 @@ export function OrchestrationMap({
                 kindLabel="Tool"
                 label={tool.label}
                 controlMode={tool.controlMode}
+                runtimeState={runtime('tool', tool.id)}
                 selected={isSelected(selection, 'tool', tool.id)}
                 governed={governed(tool.id)}
-                dimmed={dim(tool.id)}
-                onSelect={() => onSelect({ kind: 'tool', id: tool.id })}
+                dimmed={dim(tool.id, runtime('tool', tool.id))}
+                onSelect={
+                  onSelect
+                    ? () => onSelect({ kind: 'tool', id: tool.id })
+                    : undefined
+                }
               />
             ))}
           </div>
@@ -168,8 +214,14 @@ export function OrchestrationMap({
                 density="compact"
                 kindLabel="System"
                 label={system.shortLabel ?? system.label}
+                runtimeState={runtime('system', system.id)}
                 selected={isSelected(selection, 'system', system.id)}
-                onSelect={() => onSelect({ kind: 'system', id: system.id })}
+                dimmed={dim(system.id, runtime('system', system.id))}
+                onSelect={
+                  onSelect
+                    ? () => onSelect({ kind: 'system', id: system.id })
+                    : undefined
+                }
               />
             ))}
           </div>
@@ -184,10 +236,15 @@ export function OrchestrationMap({
                 density="compact"
                 kindLabel="Escalation"
                 label={path.label}
+                runtimeState={runtime('escalation', path.id)}
                 selected={isSelected(selection, 'escalation', path.id)}
                 governed={governed(path.id)}
-                dimmed={dim(path.id)}
-                onSelect={() => onSelect({ kind: 'escalation', id: path.id })}
+                dimmed={dim(path.id, runtime('escalation', path.id))}
+                onSelect={
+                  onSelect
+                    ? () => onSelect({ kind: 'escalation', id: path.id })
+                    : undefined
+                }
               />
             ))}
           </div>

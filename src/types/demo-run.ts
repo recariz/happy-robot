@@ -1,41 +1,36 @@
-/**
- * Authored demo-run event shape stored in case data.
- * Phase 4 providers enrich these into NormalizedRunEvent.
- * Tool call / tool result must remain distinct events.
- */
-export type DemoRunEventType =
-  | 'run_started'
-  | 'message'
-  | 'intent_detected'
-  | 'tool_call'
-  | 'tool_result'
-  | 'system_read'
-  | 'system_update'
-  | 'context_read'
-  | 'context_update'
-  | 'decision'
-  | 'northstar_result'
-  | 'escalation'
-  | 'notification'
-  | 'run_completed'
-  | 'run_failed'
+import type { NormalizedRunEvent, RunFieldFormat, RunValue } from './run-event'
+import type { ArchitectureRef } from './solution'
 
-export interface DemoRunEvent {
-  id: string
-  atMs: number
-  type: DemoRunEventType
-  actor?: 'customer' | 'agent' | 'tool' | 'system' | 'human' | 'governance'
-  title?: string
-  text?: string
-  /** Correlate tool_call ↔ tool_result. */
-  correlationId?: string
-  payload?: Record<string, unknown>
-  sourceSystemId?: string
-  targetSystemId?: string
-  northstarId?: string
-  escalationPathId?: string
-  severity?: 'info' | 'success' | 'warning' | 'critical'
+type RuntimeOwnedEventFields =
+  | 'runId'
+  | 'sequence'
+  | 'simulated'
+  | 'atMs'
+  | 'occurredAt'
+
+type AuthoredEvent<T> = T extends NormalizedRunEvent
+  ? Omit<T, RuntimeOwnedEventFields>
+  : never
+
+/**
+ * Authored events use the normalized ontology without runtime-owned metadata.
+ * A step may contain several events, but invocation/result/state change remain distinct.
+ */
+export type DemoRunEvent = AuthoredEvent<NormalizedRunEvent>
+export type DemoRunEventType = DemoRunEvent['type']
+
+export interface DemoRunStateField {
+  label: string
+  value: RunValue
+  format?: RunFieldFormat
 }
+
+export interface DemoRunSystemRecord {
+  label: string
+  fields: Record<string, DemoRunStateField>
+}
+
+export type DemoRunContextState = Record<string, DemoRunStateField>
 
 export interface DemoParticipants {
   customerLabel: string
@@ -44,9 +39,12 @@ export interface DemoParticipants {
 }
 
 export interface DemoInitialState {
-  systems?: Record<string, Record<string, unknown>>
-  context?: Record<string, unknown>
-  northstars?: Record<string, 'pending' | 'checking' | 'pass' | 'fail'>
+  systems?: Record<string, Record<string, DemoRunSystemRecord>>
+  context?: Record<string, DemoRunContextState>
+  northstars?: Record<
+    string,
+    'pending' | 'checking' | 'pass' | 'fail' | 'not_applicable'
+  >
 }
 
 export interface DemoExpectedOutcome {
@@ -58,6 +56,55 @@ export interface DemoExpectedOutcome {
 export interface DemoBusinessImpact {
   indicativeHumanMinutesAvoided?: number
   notes?: string[]
+}
+
+export type DemoRunPresentationKind =
+  | 'ready'
+  | 'conversation'
+  | 'tool_call'
+  | 'tool_result'
+  | 'system_read'
+  | 'system_update'
+  | 'context_update'
+  | 'decision'
+  | 'northstar_result'
+  | 'escalation'
+  | 'notification'
+  | 'run_complete'
+
+export type RunFactRef =
+  | {
+      source: 'system'
+      systemId: string
+      entityId: string
+      field: string
+      label?: string
+    }
+  | {
+      source: 'context'
+      contextSourceId: string
+      field: string
+      label?: string
+    }
+
+export interface DemoRunStepPresentation {
+  kind: DemoRunPresentationKind
+  primaryEventId?: string
+  headline: string
+  summary?: string
+  highlightRefs: ArchitectureRef[]
+  currentFactRefs?: RunFactRef[]
+  fallbackDurationMs?: number
+}
+
+export interface DemoRunStep {
+  id: string
+  events: DemoRunEvent[]
+  audio?: {
+    src: string
+    messageEventId: string
+  }
+  presentation: DemoRunStepPresentation
 }
 
 export interface DemoRunDefinition {
@@ -74,10 +121,11 @@ export interface DemoRunDefinition {
     | 'failure-recovery'
     | 'custom'
   channel: 'voice' | 'sms' | 'email' | 'chat' | 'webhook' | 'other'
+  channelId?: string
   runCtaLabel?: string
   participants: DemoParticipants
   initialState: DemoInitialState
-  events: DemoRunEvent[]
+  steps: DemoRunStep[]
   expectedOutcome: DemoExpectedOutcome
   businessImpact?: DemoBusinessImpact
   notes?: string[]

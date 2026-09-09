@@ -1,17 +1,13 @@
 import type { CaseConfig } from '../types/case'
-import type { ControlMode } from '../types/solution'
+import type {
+  ArchitectureRef,
+  ControlMode,
+} from '../types/solution'
 import type { SystemDefinition } from '../types/system'
 
 export type ArchitectureSelection =
-  | { kind: 'channel'; id: string }
-  | { kind: 'context'; id: string }
-  | { kind: 'stage'; id: string }
-  | { kind: 'decision'; id: string }
-  | { kind: 'tool'; id: string }
+  | ArchitectureRef
   | { kind: 'action'; id: string }
-  | { kind: 'system'; id: string }
-  | { kind: 'escalation'; id: string }
-  | { kind: 'northstar'; id: string }
   | null
 
 /** Systems shown on the solution architecture map — core ops + channel role. */
